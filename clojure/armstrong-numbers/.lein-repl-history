@@ -1,0 +1,2 @@
+(require '[clojure.math.numeric-tower :as nt])
+(nt/expt 1000 3)
