@@ -8,10 +8,8 @@ defmodule WordCount do
   def count(sentence) do
     sentence
     |> String.downcase()
-    |> String.codepoints()
-    |> Enum.filter(&is_valid_char?(&1))
-    |> List.to_string()
-    |> String.split(~r/[ _]/, trim: true)
+    |> select_words()
+    |> List.flatten()
     |> count_aux(%{})
   end
 
@@ -27,7 +25,7 @@ defmodule WordCount do
     freqs
   end
 
-  def is_valid_char?(char) do
-    Regex.match?(~r/[[:alnum:] _-]/u, char)
+  defp select_words(sentence) do
+    Regex.scan(~r/[[:alnum:]-]+/u, sentence)
   end
 end
