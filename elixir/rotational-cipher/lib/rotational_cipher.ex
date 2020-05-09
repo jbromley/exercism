@@ -13,13 +13,14 @@ defmodule RotationalCipher do
     |> rotate_aux(shift, [])
   end
 
+  defp rotate_aux([char | rest], shift, cipher) when char >= ?a and char <= ?z do
+    rotate_aux(rest, shift, [?a + rem((char - ?a) + shift, 26) | cipher])
+  end
+  defp rotate_aux([char | rest], shift, cipher) when char >= ?A and char <= ?Z do
+    rotate_aux(rest, shift, [?A + rem((char - ?A) + shift, 26) | cipher])
+  end
   defp rotate_aux([char | rest], shift, cipher) do
-    cond do
-      char in ?a..?z or char in ?A..?Z ->
-	rotate_aux(rest, shift, [char + shift | cipher])
-      true ->
 	rotate_aux(rest, shift, [char | cipher])
-    end
   end
   defp rotate_aux([], _shift, cipher) do
       cipher
