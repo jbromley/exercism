@@ -1,6 +1,6 @@
 object ResistorColorDuo {
 
     fun value(vararg colors: Color): Int {
-	return 10 * Color.values().indexOf(colors[0]) + Color.values().indexOf(colors[1])
+	return 10 * colors[0].ordinal + colors[1].ordinal
     }
 }
