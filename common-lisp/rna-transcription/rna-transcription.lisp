@@ -17,4 +17,4 @@ the base is not a valid base (A, C, G, T)."
 
 (defun to-rna (str)
   "Transcribe a string representing DNA nucleotides to RNA."
-  (coerce (map 'list #'to-rna-base str) 'string))
+  (map 'string #'to-rna-base str))
