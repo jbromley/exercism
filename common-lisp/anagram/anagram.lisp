@@ -8,11 +8,10 @@
 (defun occurrences (str)
   "Count the number occurrences of each element of the string STR.
 Return an alist sorted by the element."
-  (let* ((lst (coerce str 'list))
-         (elements (remove-duplicates lst))
-         (counts (pairlis elements (make-list (length elements) :initial-element 0))))
-    (loop for x in lst
-          do (incf (cdr (assoc x counts))))
+  (let* ((letters (remove-duplicates (coerce str 'list)))
+         (counts (pairlis letters (make-list (length letters) :initial-element 0))))
+    (loop for letter across str
+          do (incf (cdr (assoc letter counts))))
     (sort counts #'char< :key #'car)))
 
 (defun anagrams-for (subject candidates)
