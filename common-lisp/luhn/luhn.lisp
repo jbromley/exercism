@@ -25,4 +25,4 @@ nine, then subtract nine from the doubled value."
   (let ((digits (map 'list #'digit-char-p
                         (remove #\Space input))))
     (when (and (> (length digits) 1) (not (member nil digits)))
-      (= 0 (mod (luhn-checksum digits) 10)))))
+      (zerop (mod (luhn-checksum digits) 10)))))
