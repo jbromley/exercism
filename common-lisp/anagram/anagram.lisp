@@ -8,18 +8,18 @@
 (defun occurrences (str)
   "Count the number occurrences of each element of the string STR.
 Return an alist sorted by the element."
-  (let* ((letters (remove-duplicates (coerce str 'list)))
-         (counts (pairlis letters (make-list (length letters) :initial-element 0))))
+  (let* ((counts (make-hash-table :test 'equalp)))
     (loop for letter across str
-          do (incf (cdr (assoc letter counts))))
-    (sort counts #'char< :key #'car)))
+          do (if (gethash letter counts)
+                 (incf (gethash letter counts))
+                 (setf (gethash letter counts) 1)))
+    counts))
+
 
 (defun anagrams-for (subject candidates)
   "Returns a sublist of candidates which are anagrams of the subject."
-  (let* ((subject-lc (string-downcase subject))
-         (subject-freqs (occurrences subject-lc)))
-    (loop for candidate in candidates
-          for candidate-lc = (string-downcase candidate)
-          when (and (equal subject-freqs (occurrences candidate-lc))
-                    (not (equal subject-lc candidate-lc)))
-            collect candidate)))
+  (let ((subject-freqs (occurrences subject)))
+    (loop for c in candidates
+          when (and (equalp subject-freqs (occurrences c))
+                    (not (string-equal subject c)))
+            collect c)))
