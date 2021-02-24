@@ -4,14 +4,18 @@
 
 (in-package #:sublist)
 
-(defun sublist-p (list1 list2)
+(defun sublist-p (list1 list2 &optional (start 0))
   "Determine if LIST1 is a sublist of LIST2. If LIST1 is longer than
 LIST2, NIL is returned."
-  (if (> (length list1) (length list2))
-      nil
-      (let ((match-start (position (first list1) list2)))
-        (when match-start
-          (equal list1 (subseq list2 match-start (+ match-start (length list1))))))))
+  (unless (> (length list1) (length list2))
+    (let ((match-start (position (first list1) list2)))
+      (cond
+        ((null match-start) nil)
+        (> (+ match-start (length list1)) (1- (length list2)) nil)  nil
+         (equal list1 (subseq list2 match-start (+ match-start (length list1)) start)) t
+         (t sublist-p list1 list2 match-start (1+ start))))))
+
+
 
 (defun sublist (list1 list2)
   "What is LIST1 of LIST2 (sublist, superlist, equal or unequal)"
@@ -19,6 +23,8 @@ LIST2, NIL is returned."
         (len2 (length list2)))
     (cond
       ((equal list1 list2) :equal)
+      ((null list1) :sublist)
+      ((null list2) :superlist)
       ((< len1 len2)
        (if (sublist-p list1 list2) :sublist :unequal))
       ((> len1 len2)
