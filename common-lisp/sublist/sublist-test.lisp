@@ -1,4 +1,4 @@
-(ql:quickload "lisp-unit")
+;(ql:quickload "lisp-unit")
 #-xlisp-test (load "sublist")
 
 (defpackage #:sublist-test
@@ -62,7 +62,6 @@
 (define-test sublist-at-end
   (assert-equal :sublist (sublist:sublist (list 3 4 5)
                                            (list 0 1 2 3 4 5))))
-
 
 ;; Superlist lists tests:
 (define-test not-empty-list-contains-empty-list
