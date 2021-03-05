@@ -5,19 +5,12 @@
 
 (in-package #:robot)
 
-;; (defvar *robot-name-db* (list)
-;;   "Database that holds all used robot names.")
 (defvar *robot-name-db* (make-hash-table :test 'equal)
   "Database that holds all used robot names.")
 
 (defun random-letter ()
   "Generate a random capital letter."
   (code-char (+ 65 (random 26))))
-
-;; (defun name-unused-p (name)
-;;   "Check if NAME has already been used as a robot name. Returns t if NAME has
-;; not been used before and NIL if the name has been used."
-;;   (not (member name *robot-name-db* :test #'string=)))
 
 (defun name-unused-p (name)
   "Check if NAME has already been used as a robot name. Returns t if NAME has
@@ -27,11 +20,6 @@ not been used before and NIL if the name has been used."
 (defun names-available-p ()
   "Returns if the name database is full or not."
   (< (hash-table-count *robot-name-db*) (* 26 26 10 10 10)))
-
-;; (defun use-name (name)
-;;   "Use NAME for a robot. This records NAME in the robot name database so it
-;; cannot be reused. Returns the name."
-;;   (car (pushnew name *robot-name-db* :test #'string=)))
 
 (defun use-name (name)
   "Use NAME for a robot. This records NAME in the robot name database so it
