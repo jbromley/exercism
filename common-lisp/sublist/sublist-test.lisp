@@ -1,4 +1,4 @@
-;(ql:quickload "lisp-unit")
+(ql:quickload "lisp-unit")
 #-xlisp-test (load "sublist")
 
 (defpackage #:sublist-test
