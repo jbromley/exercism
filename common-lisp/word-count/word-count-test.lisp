@@ -25,13 +25,11 @@
     '(("word" . 1))
     (word-count:count-words "word")))
 
-
 (define-test
   count-one-of-each-word
   (assert-alist-equal
     '(("one" . 1) ("of" . 1) ("each" . 1))
     (word-count:count-words "one of each")))
-
 
 (define-test
   multiple-occurrences-of-a-word
@@ -39,13 +37,11 @@
     '(("one" . 1) ("fish" . 4) ("two" . 1) ("red" . 1) ("blue" . 1))
     (word-count:count-words "one fish two fish red fish blue fish")))
 
-
 (define-test
   handles-cramped-lists
   (assert-alist-equal
     '(("one" . 1) ("two" . 1) ("three" . 1))
     (word-count:count-words "one,two,three")))
-
 
 (define-test
   handles-expanded-lists
@@ -55,13 +51,11 @@
 two,
 three")))
 
-
 (define-test
   ignore-punctuation
   (assert-alist-equal
     '(("car" . 1) ("carpet" . 1) ("as" . 1) ("java" . 1) ("javascript" . 1))
     (word-count:count-words "car: carpet as java: javascript!!&@$%^&")))
-
 
 (define-test
   include-numbers
@@ -69,20 +63,17 @@ three")))
     '(("testing" . 2) ("1" . 1) ("2" . 1))
     (word-count:count-words "testing, 1, 2 testing")))
 
-
 (define-test
   normalize-case
   (assert-alist-equal
     '(("go" . 3) ("stop" . 2))
     (word-count:count-words "go Go GO Stop stop")))
 
-
 (define-test
   with-apostrophes
   (assert-alist-equal
     '(("first" . 1) ("don't" . 2) ("laugh" . 1) ("then" . 1) ("cry" . 1))
     (word-count:count-words "First: don't laugh. Then: don't cry.")))
-
 
 (define-test
   with-quotations
@@ -91,7 +82,6 @@ three")))
       ("and" . 1))
     (word-count:count-words "Joe can't tell between 'large' and large.")))
 
-
 (define-test
   substrings-from-the-beginning
   (assert-alist-equal
@@ -99,13 +89,11 @@ three")))
       ("apple" . 1) ("and" . 1) ("a" . 1))
     (word-count:count-words "Joe can't tell between app, apple and a.")))
 
-
 (define-test
   multiple-spaces-not-detected-as-a-word
   (assert-alist-equal
     '(("multiple" . 1) ("whitespaces" . 1))
     (word-count:count-words " multiple   whitespaces")))
-
 
 (define-test
   alternating-word-separators-not-detected-as-a-word
