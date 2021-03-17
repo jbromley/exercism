@@ -19,7 +19,7 @@ and the apostrophe with spaces."
   (string-downcase
    (substitute-if #\space
                   (lambda (c)
-                    (not (or (alpha-char-p c) (digit-char-p c) (equal c #\apostrophe))))
+                    (not (or (alphanumericp c) (char= c #\apostrophe))))
                   s)))
 
 (defun trim-word-list (word-list)
