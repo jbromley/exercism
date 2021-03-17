@@ -10,8 +10,7 @@
 in the vector, return NIL."
   (let ((mid (floor (+ start end) 2)))
     (cond
-      ((< mid 0) nil)
+      ((> start end) nil)
       ((= (elt arr mid) el) mid)
-      ((<= end start) nil)
       ((< (elt arr mid) el) (binary-find arr el (1+ mid) end))
       (t (binary-find arr el start (1- mid))))))
