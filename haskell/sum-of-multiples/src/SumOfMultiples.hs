@@ -1,12 +1,11 @@
 module SumOfMultiples (sumOfMultiples) where
 
-import Data.List (nub, sort)
+import Data.List (nub)
 
 sumOfMultiples :: [Integer] -> Integer -> Integer
 sumOfMultiples factors limit = 
-   sum $ uniqueInts
-   where multList n
-             | n == 0 = [0]
-             | otherwise = [n, 2 * n ..]
-         allInts = foldl (++) [] $ map (\x -> takeWhile (< limit) $ multList x) factors
-         uniqueInts = (nub . sort) allInts
+    sum . nub $ factors >>= takeWhile (< limit) . multiples
+
+multiples :: Integer -> [Integer]
+multiples 0 = [0]
+multiples n = [m * n | m <- [1..]]
