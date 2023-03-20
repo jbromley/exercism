@@ -6,9 +6,10 @@ normalize :: String -> String
 normalize s = map toLower $ filter isAlphaNum s
 
 gridSize :: Int -> (Int, Int)
-gridSize n =
-  let r = floor $ sqrt $ fromIntegral n
-   in if r * r == n then (r, r) else (r, r + 1)
+gridSize n = head $ dropWhile (\(x, y) -> x * y < n) ss
+  where
+    r = floor $ (sqrt :: Double -> Double) $ fromIntegral n
+    ss = [(r, r), (r, r + 1), (r + 1, r + 1)]
 
 chunksOf :: Int -> [a] -> [[a]]
 chunksOf _ [] = []
