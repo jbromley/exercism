@@ -25,6 +25,7 @@ padRight n s
   | otherwise = s
 
 encode :: String -> String
+encode "" = ""
 encode xs = unwords $ transposeLists $ map (padRight c) $ chunksOf c ns
   where
     ns = normalize xs
