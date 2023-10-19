@@ -1,7 +1,5 @@
-import gleam/int
-
 pub fn reply(guess: Int) -> String {
-  case int.absolute_value(guess) {
+  case guess {
     n if n < 41 ->"Too low"
     41 -> "So close"
     42 -> "Correct"
