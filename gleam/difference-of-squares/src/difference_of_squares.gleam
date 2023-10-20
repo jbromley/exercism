@@ -4,14 +4,7 @@ pub fn square_of_sum(n: Int) -> Int {
 }
 
 pub fn sum_of_squares(n: Int) -> Int {
-  sum_of_squares_aux(n, 0)
-}
-
-fn sum_of_squares_aux(n: Int, sum: Int) -> Int {
-  case n {
-    0 -> sum
-    _ -> sum_of_squares_aux(n - 1, sum + n * n)
-  }
+  n * { n + 1 } * { 2 * n + 1 } / 6
 }
 
 pub fn difference(n: Int) -> Int {
