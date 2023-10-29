@@ -1,5 +1,3 @@
-import gleam/list
-
 const sym_table = [
   #(1000, "M"),
   #(900, "CM"),
@@ -21,12 +19,10 @@ pub fn convert(number: Int) -> String {
 }
 
 fn convert_aux(number: Int, syms: List(#(Int, String)), roman: String) -> String {
-  case #(number, syms) {
-    #(n, _) if n == 0 -> roman
-    #(n, [#(val, symbol), ..]) ->
-      case n < val {
-        True -> convert_aux(n, list.drop(syms, 1), roman)
-        False -> convert_aux(n - val, syms, roman <> symbol)
-      }
+  case number, syms {
+    0, _ -> roman
+    _, [] -> todo as "empty symbol table!"
+    n, [#(val, _symbol), ..rest] if n < val -> convert_aux(n, rest, roman)
+    n, [#(val, symbol), ..] -> convert_aux(n - val, syms, roman <> symbol)
   }
 }
