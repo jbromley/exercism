@@ -1,23 +1,22 @@
 import gleam/int
-import gleam/list
+import gleam/string
 
 pub fn convert(number: Int) -> String {
-  let factors = [#(3, "Pling"), #(5, "Plang"), #(7, "Plong")]
-
   let s =
-    list.fold(
-      over: factors,
-      from: "",
-      with: fn(acc, factor) {
-        let #(divisor, sound) = factor
-        case number % divisor {
-          0 -> acc <> sound
-          _ -> acc
-        }
-      },
-    )
-  case s {
-    "" -> int.to_string(number)
-    _ -> s
+    ""
+    |> raindrop(number, 3, "Pling")
+    |> raindrop(number, 5, "Plang")
+    |> raindrop(number, 7, "Plong")
+
+  case string.is_empty(s) {
+    True -> int.to_string(number)
+    False -> s
+  }
+}
+
+fn raindrop(acc: String, number: Int, divisor: Int, sound: String) -> String {
+  case number % divisor {
+    0 -> acc <> sound
+    _ -> acc
   }
 }
