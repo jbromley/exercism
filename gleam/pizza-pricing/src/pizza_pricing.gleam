@@ -1,5 +1,3 @@
-import gleam/list
-
 pub type Pizza {
   Margherita
   Caprese
@@ -9,31 +7,32 @@ pub type Pizza {
 }
 
 pub fn pizza_price(pizza: Pizza) -> Int {
-  pizza_price_aux(0, pizza)
+  pizza_price_aux(pizza, 0)
 }
 
-fn pizza_price_aux(acc: Int, pizza: Pizza) -> Int {
+fn pizza_price_aux(pizza: Pizza, acc: Int) -> Int {
   case pizza {
     Margherita -> acc + 7
     Caprese -> acc + 9
     Formaggio -> acc + 10
-    ExtraSauce(p) -> pizza_price_aux(acc + 1, p)
-    ExtraToppings(p) -> pizza_price_aux(acc + 2, p)
+    ExtraSauce(p) -> pizza_price_aux(p, acc + 1)
+    ExtraToppings(p) -> pizza_price_aux(p, acc + 2)
   }
 }
 
 pub fn order_price(order: List(Pizza)) -> Int {
-  let base_price = order_price_aux(0, order)
-  case list.length(order) {
-    1 -> 3 + base_price
-    2 -> 2 + base_price
-    _ -> base_price
+  let size_fee = case order {
+    [_] -> 3
+    [_, _] -> 2
+    _ -> 0
   }
+
+  order_price_aux(order, size_fee)
 }
 
-fn order_price_aux(price: Int, order: List(Pizza)) -> Int {
+fn order_price_aux(order: List(Pizza), price: Int) -> Int {
   case order {
     [] -> price
-    [pizza, ..rest] -> order_price_aux(price + pizza_price(pizza), rest)
+    [pizza, ..rest] -> order_price_aux(rest, price + pizza_price(pizza))
   }
 }
