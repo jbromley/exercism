@@ -1,3 +1,4 @@
+import gleam/int
 import gleam/iterator
 import gleam/list
 import gleam/set.{Set}
@@ -5,8 +6,8 @@ import gleam/set.{Set}
 pub fn sum(factors factors: List(Int), limit limit: Int) -> Int {
   factors
   |> list.map(multiples_up_to(_, limit))
-  |> list.fold(set.new(), fn(acc, s) { set.union(acc, s) })
-  |> set.fold(0, fn(acc, x) { acc + x })
+  |> list.fold(set.new(), set.union)
+  |> set.fold(0, int.add)
 }
 
 fn multiples_up_to(base: Int, limit: Int) -> Set(Int) {
