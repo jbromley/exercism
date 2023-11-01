@@ -20,8 +20,7 @@ pub fn initials(full_name: String) {
   full_name
   |> string.split(on: " ")
   |> list.map(initial)
-  |> list.intersperse(" ")
-  |> string.concat()
+  |> string.join(" ")
 }
 
 pub fn pair(full_name1: String, full_name2: String) {
