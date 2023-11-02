@@ -22,8 +22,7 @@ pub fn apply_rules(
   rule4: fn(Game) -> Result(Game, String),
 ) -> Game {
   let next_game =
-    Ok(game)
-    |> result.try(rule1(_))
+    rule1(game)
     |> result.map(rule2(_))
     |> result.try(rule3(_))
     |> result.try(rule4(_))
