@@ -17,13 +17,9 @@ pub fn is_armstrong_number(number: Int) -> Bool {
   sum == number
 }
 
-fn power(x: Int, power: Int) -> Int {
-  power_aux(x, power, 1)
-}
-
-fn power_aux(x: Int, power: Int, acc: Int) -> Int {
-  case power {
-    0 -> acc
-    _ -> power_aux(x, power - 1, acc * x)
+fn power(x: Int, pow: Int) -> Int {
+  case pow {
+    0 -> 1
+    _ -> x * power(x, pow - 1)
   }
 }
