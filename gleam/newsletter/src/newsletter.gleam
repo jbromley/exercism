@@ -31,18 +31,11 @@ pub fn send_newsletter(
   log_path: String,
   send_email: fn(String) -> Result(Nil, Nil),
 ) -> Result(Nil, Nil) {
-  let assert Ok(_) = create_log_file(log_path)
-  case read_emails(emails_path) {
-    Ok(emails) -> {
-      emails
-      |> list.each(fn(email) {
-        case send_email(email) {
-          Ok(Nil) -> log_sent_email(log_path, email)
-          _ -> Error(Nil)
-        }
-      })
-      Ok(Nil)
-    }
-    _ -> Error(Nil)
+  use _ <- result.try(create_log_file(log_path))
+  use emails <- result.try(read_emails(emails_path))
+  use email <- list.try_each(emails)
+  case send_email(email) {
+    Ok(_) -> log_sent_email(log_path, email)
+    Error(_) -> Ok(Nil)
   }
 }
