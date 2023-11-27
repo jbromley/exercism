@@ -1,5 +1,4 @@
 import gleam/list
-import gleam/result
 
 pub type Usd
 
@@ -25,6 +24,12 @@ pub fn yen(amount: Int) -> Money(Jpy) {
 
 pub fn total(prices: List(Money(currency))) -> Money(currency) {
   prices
-  |> list.reduce(fn(acc, x) { Money(acc.amount + x.amount) })
-  |> result.unwrap(Money(0))
+  |> list.fold(
+    0,
+    fn(acc, price) {
+      let Money(amount) = price
+      acc + amount
+    },
+  )
+  |> Money()
 }
