@@ -16,8 +16,7 @@ defmodule ProteinTranslation do
     "UAC" => "Tyrosine",
     "UAA" => "STOP",
     "UAG" => "STOP",
-    "UGA" => "STOP",
-    "" => "STOP"
+    "UGA" => "STOP"
   }
 
   @doc """
@@ -25,22 +24,26 @@ defmodule ProteinTranslation do
   """
   @spec of_rna(String.t()) :: {:ok, list(String.t())} | {:error, String.t()}
   def of_rna(rna) do
-    of_rna(rna, [])
+    codons = rna |> String.split("", trim: true) |> Enum.chunk_every(3) |> Enum.map(&Enum.join/1)
+    of_rna(codons, [])
   end
 
-  @spec of_rna(String.t(), list(String.t())) :: {:ok, list(String.t())} | {:error, String.t()}
-  defp of_rna(rna, aminos) do
-    {codon, rna} = String.split_at(rna, 3)
+  @spec of_rna(list(String.t()), list(String.t())) ::
+          {:ok, list(String.t())} | {:error, String.t()}
+  defp of_rna([], aminos) do
+    {:ok, Enum.reverse(aminos)}
+  end
 
+  defp of_rna([codon | codons], aminos) do
     case of_codon(codon) do
       {:error, _} ->
         {:error, "invalid RNA"}
 
-      {:ok, amino} when amino == "STOP" ->
-        {:ok, Enum.reverse(aminos)}
+      {:ok, "STOP"} ->
+        of_rna([], aminos)
 
       {:ok, amino} ->
-        of_rna(rna, [amino | aminos])
+        of_rna(codons, [amino | aminos])
     end
   end
 
