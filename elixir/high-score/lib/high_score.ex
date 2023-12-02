@@ -1,9 +1,11 @@
 defmodule HighScore do
+  @initial_score 0
+
   def new() do
     Map.new()
   end
 
-  def add_player(scores, name, score \\ 0) do
+  def add_player(scores, name, score \\ @initial_score) do
     Map.put(scores, name, score)
   end
 
@@ -12,8 +14,7 @@ defmodule HighScore do
   end
 
   def reset_score(scores, name) do
-    {_, new_scores} = Map.get_and_update(scores, name, fn current -> {current, 0} end)
-    new_scores
+    Map.update(scores, name, @initial_score, fn _current -> @initial_score end)
   end
 
   def update_score(scores, name, score) do
